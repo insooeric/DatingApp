@@ -18,6 +18,11 @@ import PrivateRoute from "./components/PrivateRoute.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import RegisterPage from "./pages/RegisterPage.jsx";
+import TierPage from "./pages/TierPage.jsx";
+import CardRegisterPage from "./pages/CardRegisterPage.jsx";
+
+import InitialSettingPage from "./pages/InitialSettingPage.jsx";
+import LocationSettingPage from "./pages/LocationSettingPage.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -25,6 +30,11 @@ const router = createBrowserRouter(
       <Route index={true} path="/" element={<HomePage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
+      <Route path="/tier" element={<TierPage />} />
+      <Route path="/add-card" element={<CardRegisterPage />} />
+
+      <Route path="/welcome" element={<InitialSettingPage />} />
+      <Route path="/set-location" element={<LocationSettingPage />} />
 
       {/* Private Route */}
       <Route path="" element={<PrivateRoute />}>

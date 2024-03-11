@@ -51,9 +51,10 @@ const RegisterPage = () => {
     try {
       const res = await register({ name, email, password }).unwrap();
       dispatch(setCredentials({ ...res }));
-      navigate("/");
+      navigate("/welcome");
     } catch (err) {
-      toast.error("Please fill in all of the fields.");
+      console.log(err);
+      toast.error(`${err.data.message}`);
     }
   };
 

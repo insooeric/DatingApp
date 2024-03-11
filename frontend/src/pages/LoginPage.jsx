@@ -68,7 +68,7 @@ const LoginPage = () => {
             </button>
             <br />
             Not a member?
-            <Link to="/register">
+            <Link to="/tier">
               <button>Register</button>
             </Link>
           </div>
