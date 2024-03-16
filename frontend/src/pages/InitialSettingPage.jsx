@@ -199,13 +199,17 @@ const InitialSettingPage = () => {
                 value={formData.interest}
                 onChange={handleChange}
               />
-              <button type="button" onClick={handleInterestAdd}>
+              <button
+                className="add-interest-btn"
+                type="button"
+                onClick={handleInterestAdd}
+              >
                 +
               </button>
             </label>
             <div>
               {formData.interests.map((interest, index) => (
-                <span key={index}>{interest}, </span>
+                <span key={index}>{interest} </span>
               ))}
             </div>
             <br />
@@ -220,7 +224,9 @@ const InitialSettingPage = () => {
               ></textarea>
             </label>
             <br />
-            <button type="submit">Continue</button>
+            <button className="initial-continue-btn" type="submit">
+              Continue
+            </button>
           </form>
         </div>
       </div>

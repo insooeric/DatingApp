@@ -1,0 +1,46 @@
+.nav {
+  background-color: #d5dfe6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+
+  .logo {
+    color: #0af;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
+
+  #username {
+    color: #0af;
+  }
+  .login {
+    display: flex;
+    align-items: center;
+
+    .nav-signin-pc {
+      display: flex;
+      align-items: center;
+      color: #0af;
+      text-decoration: none;
+
+      svg {
+        margin-right: 0.5rem;
+      }
+    }
+  }
+}
+
+.NavDropdown {
+  position: relative;
+
+  .NavDropdown-Item {
+    background-color: #000;
+    color: #0af;
+
+    &:hover {
+      background-color: #007bff;
+    }
+  }
+}

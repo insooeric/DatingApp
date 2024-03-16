@@ -9,7 +9,14 @@ import {
 } from "react-router-dom";
 import App from "./App.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./styles.scss";
+import "./styles/HomePage.scss";
+import "./styles/CardRegisterPage.scss";
+import "./styles/NavBar.scss";
+import "./styles/LoginPage.scss";
+import "./styles/RegisterPage.scss";
+import "./styles/TierPage.scss";
+import "./styles/InitialSettingPage.scss";
+import "./styles/LocationSettingPage.scss";
 import store from "./store.js";
 import { Provider } from "react-redux";
 import PrivateRoute from "./components/PrivateRoute.jsx";

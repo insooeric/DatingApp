@@ -1,13 +1,7 @@
-.nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: burlywood;
-}
-
 .card-register-page {
   max-width: 400px;
-  margin: 0 auto;
+  margin: auto;
+  margin-top: 20px;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -35,7 +29,7 @@
     button {
       padding: 10px;
       margin-top: 10px;
-      background-color: #007bff;
+      background-color: #0af;
       color: #fff;
       border: none;
       border-radius: 4px;
@@ -43,7 +37,7 @@
     }
 
     button:hover {
-      background-color: #0056b3;
+      background-color: #007bff;
     }
   }
 }

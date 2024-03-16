@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const CardRegisterPage = () => {
   const [name, setName] = useState("");
@@ -9,7 +10,8 @@ const CardRegisterPage = () => {
   const [expiryYear, setExpiryYear] = useState("");
   const [cvv, setCVV] = useState("");
   const [submitText, setSubmitText] = useState("Submit");
-  const [isFormValid, setIsFormValid] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -61,16 +63,13 @@ const CardRegisterPage = () => {
     e.preventDefault();
     const isValid = validateForm();
     if (isValid) {
-      setIsFormValid(true);
-      setSubmitText("Valid");
+      navigate("/register");
     } else {
-      setIsFormValid(false);
       setSubmitText("Submit");
     }
   };
 
   useEffect(() => {
-    setIsFormValid(false);
     setSubmitText("Submit");
   }, [name, cardNumber, expiryMonth, expiryYear, cvv]);
 
@@ -155,9 +154,6 @@ const CardRegisterPage = () => {
         </label>
         <button type="submit">{submitText}</button>
       </form>
-      <Link to="/register">
-        <button disabled={!isFormValid}>Continue</button>
-      </Link>
     </div>
   );
 };

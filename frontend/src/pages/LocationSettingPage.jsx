@@ -118,6 +118,10 @@ const LocationSettingPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!userCountry || !userProvince || !userCity) {
+      toast.error("Please select your country, province, and city.");
+      return;
+    }
     sessionStorage.clear();
     try {
       const res = await postUserRecord({
@@ -200,8 +204,8 @@ const LocationSettingPage = () => {
   return (
     <>
       <div className="location-setting-page">
-        <div>LocationSettingPage</div>
-        <form onSubmit={handleSubmit}>
+        <h2>Location Setting</h2>
+        <form className="location-form" onSubmit={handleSubmit}>
           <label>User Country:</label>
           <select
             value={userCountry}

@@ -41,7 +41,7 @@ const LoginPage = () => {
   return (
     <>
       <div className="loginPage">
-        Login Page
+        <h2 className="loginTitle">Login</h2>
         <form onSubmit={loginHandler}>
           <div className="input-field">
             <label className="input-label">User Email</label>
@@ -67,9 +67,9 @@ const LoginPage = () => {
               Login
             </button>
             <br />
-            Not a member?
+            {/* Not a member? */}
             <Link to="/tier">
-              <button>Register</button>
+              <button className="register-btn">Register</button>
             </Link>
           </div>
         </form>

@@ -1,0 +1,31 @@
+.tier-page {
+  display: flex;
+  flex-direction: column;
+  padding: 18px;
+
+  .tier-header {
+    text-align: center;
+  }
+
+  .free,
+  .paid {
+    margin: 15px;
+    font-size: 18px;
+  }
+
+  button {
+    color: #0af;
+    border: 2px solid #0af;
+    background-color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 5%;
+    transition: background-color 0.5s ease;
+    font-weight: 700;
+    margin-top: 5px;
+
+    &:hover {
+      background-color: #007bff;
+      color: #fff;
+    }
+  }
+}

@@ -66,7 +66,7 @@ const RegisterPage = () => {
   return (
     <>
       <div className="loginPage">
-        Register Page
+        <h2>Register</h2>
         <form onSubmit={registerHandler}>
           <div className="input-field">
             <label className="input-label">User Name</label>
@@ -78,7 +78,7 @@ const RegisterPage = () => {
             />
           </div>
           <div className="input-field">
-            <label className="input-label">User Email</label>
+            <label className="input-label">Email</label>
             <input
               type="text"
               placeholder="Please type email"
@@ -105,14 +105,14 @@ const RegisterPage = () => {
             />
           </div>
 
-          <div className="bottom-panel">
-            <button type="submit" className="login-btn">
+          <div className="bottom-panel-register">
+            <button type="submit" className="register-btn">
               Register
             </button>
             <br />
-            Already a member?
+            <p className="login-btn-text">Already a member?</p>
             <Link to="/login">
-              <button>Login</button>
+              <button className="login-btn">Login</button>
             </Link>
           </div>
         </form>

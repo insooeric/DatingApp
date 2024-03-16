@@ -3,16 +3,16 @@ const TierPage = () => {
   return (
     <>
       <div className="tier-page">
-        TierPage
+        <h2 className="tier-header">TierPage</h2>
         <br />
         <div className="free">
-          free member: browse only{" "}
+          Free member: browse only <br />
           <Link to="/add-card">
             <button>Register</button>
           </Link>
         </div>
         <div className="paid">
-          paid member: create profile, search user, etc
+          Paid member: create profile, search user, etc
         </div>
       </div>
     </>
