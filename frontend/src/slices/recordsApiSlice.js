@@ -17,8 +17,24 @@ export const recordApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    getRandomUserRecord: builder.mutation({
+      query: (data) => ({
+        url: `${RECORDS_URL}/6-random-record`,
+        method: "GET",
+      }),
+    }),
+    getAllRecords: builder.mutation({
+      query: (data) => ({
+        url: `${RECORDS_URL}/all-records`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useGetUserRecordMutation, usePostUserRecordMutation } =
-  recordApiSlice;
+export const {
+  useGetUserRecordMutation,
+  usePostUserRecordMutation,
+  useGetRandomUserRecordMutation,
+  useGetAllRecordsMutation,
+} = recordApiSlice;

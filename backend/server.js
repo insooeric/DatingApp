@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import userRoutes from "./routes/userRoutes.js";
 import recordRoutes from "./routes/recordRoutes.js";
 import locationRoutes from "./routes/locationRoutes.js";
+// import testRoutes from "./routes/testingRoutes.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 import connectDB from "./config/db.js";
 import cookieParser from "cookie-parser";
@@ -23,6 +24,7 @@ app.use(cookieParser());
 app.use("/api/users", userRoutes);
 app.use("/api/records", recordRoutes);
 app.use("/api/locations", locationRoutes);
+// app.use("/api/test", testRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

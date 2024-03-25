@@ -140,8 +140,10 @@ const LocationSettingPage = () => {
           },
         },
         identification: userInfo.identification,
+        transGender: userInfo.transGender === "true" ? true : false,
         interestGender: userInfo.interestGender,
         interests: userInfo.interests,
+        bio: userInfo.bio,
       }).unwrap();
       // const test = {
       //   userName: userInfo.userName,
@@ -159,6 +161,7 @@ const LocationSettingPage = () => {
       //     },
       //   },
       //   identification: userInfo.identification,
+      //   transGender: userInfo.transGender === "true" ? true : false,
       //   interestGender: userInfo.interestGender,
       //   interests: userInfo.interests,
       // };

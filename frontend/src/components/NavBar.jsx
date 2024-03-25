@@ -33,7 +33,26 @@ const NavBar = () => {
         <Link className="logo" to="/">
           Some Logo?
         </Link>
-        <div className="tabs">Tabs here</div>
+        <div className="tabs">
+          <ul className="nav-list">
+            <li>
+              <Link className="nav-item" to={"/"}>
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link className="nav-item" to={"/browse"}>
+                Browse
+              </Link>
+            </li>
+            {/* TODO: Construct statistics or chat page */}
+            <li>
+              <Link className="nav-item" to={"/"}>
+                Default
+              </Link>
+            </li>
+          </ul>
+        </div>
         <div className="login">
           {userInfo ? (
             <>

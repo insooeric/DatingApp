@@ -12,6 +12,18 @@
     font-size: 1.5rem;
   }
 
+  .tabs {
+    .nav-list {
+      display: flex;
+      flex-direction: row;
+      list-style-type: none;
+
+      .nav-item {
+        margin: 10px;
+      }
+    }
+  }
+
   #username {
     color: #0af;
   }

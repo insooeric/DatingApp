@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import App from "./App.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./styles/OverallStyle.scss";
 import "./styles/HomePage.scss";
 import "./styles/CardRegisterPage.scss";
 import "./styles/NavBar.scss";
@@ -17,6 +18,7 @@ import "./styles/RegisterPage.scss";
 import "./styles/TierPage.scss";
 import "./styles/InitialSettingPage.scss";
 import "./styles/LocationSettingPage.scss";
+import "./styles/SearchPage.scss";
 import store from "./store.js";
 import { Provider } from "react-redux";
 import PrivateRoute from "./components/PrivateRoute.jsx";
@@ -27,7 +29,9 @@ import LoginPage from "./pages/LoginPage.jsx";
 import RegisterPage from "./pages/RegisterPage.jsx";
 import TierPage from "./pages/TierPage.jsx";
 import CardRegisterPage from "./pages/CardRegisterPage.jsx";
+import SearchPage from "./pages/SearchPage.jsx";
 
+// single-access page
 import InitialSettingPage from "./pages/InitialSettingPage.jsx";
 import LocationSettingPage from "./pages/LocationSettingPage.jsx";
 
@@ -39,6 +43,7 @@ const router = createBrowserRouter(
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/tier" element={<TierPage />} />
       <Route path="/add-card" element={<CardRegisterPage />} />
+      <Route path="/browse" element={<SearchPage />} />
 
       <Route path="/welcome" element={<InitialSettingPage />} />
       <Route path="/set-location" element={<LocationSettingPage />} />

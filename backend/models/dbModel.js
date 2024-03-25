@@ -77,6 +77,11 @@ const recordSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  transGender: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
   interestGender: {
     type: String,
     required: true,
@@ -87,6 +92,11 @@ const recordSchema = mongoose.Schema({
       required: false,
     },
   ],
+  bio: {
+    type: String,
+    required: false,
+    default: "",
+  },
 });
 
 const citySchema = new mongoose.Schema({

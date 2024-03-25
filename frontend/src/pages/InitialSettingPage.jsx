@@ -15,6 +15,7 @@ const InitialSettingPage = () => {
     weight: 0,
     gender: "",
     identity: "",
+    transGender: "",
     targetGender: "",
     interests: [],
     bio: "",
@@ -48,9 +49,11 @@ const InitialSettingPage = () => {
         height: formData.height,
         weight: formData.weight,
         gender: formData.gender,
+        transGender: formData.transGender,
         identification: formData.identity,
         interestGender: formData.targetGender,
         interests: formData.interests,
+        bio: formData.bio,
       };
       console.log(tmp_info);
       sessionStorage.setItem("info", JSON.stringify(tmp_info));
@@ -117,7 +120,7 @@ const InitialSettingPage = () => {
         <div className="container">
           <form onSubmit={handleSubmit}>
             <label>
-              I am:
+              My age
               <input
                 type="number"
                 name="age"
@@ -126,7 +129,7 @@ const InitialSettingPage = () => {
                 required
               />
             </label>
-            years old{" "}
+            Gender
             <label>
               <select
                 name="gender"
@@ -139,8 +142,8 @@ const InitialSettingPage = () => {
                 <option value="female">Female</option>
                 <option value="nonBinary">Non-binary</option>
               </select>
-            </label>{" "}
-            identified as{" "}
+            </label>
+            Identified gender
             <label>
               <select
                 name="identity"
@@ -149,14 +152,27 @@ const InitialSettingPage = () => {
                 required
               >
                 <option value="">Select Identity</option>
-                <option value="hetrosexual">Heterosexual</option>
+                <option value="heterosexual">Heterosexual</option>
                 <option value="lesbian">Lesbian</option>
                 <option value="gay">Gay</option>
                 <option value="bisexual">Bisexual</option>
                 <option value="transgender">Transgender</option>
               </select>
-            </label>{" "}
-            (Person) looking for
+            </label>
+            Are you transgender?
+            <label>
+              <select
+                name="transGender"
+                value={formData.transGender}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Select Yes/No</option>
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+              </select>
+            </label>
+            Looking for
             <label>
               <select
                 name="targetGender"
@@ -167,11 +183,12 @@ const InitialSettingPage = () => {
                 <option value="">Select Target</option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
+                <option value="all">All</option>
               </select>
             </label>
             <br />
             <label>
-              Height (in cm):
+              Height (in cm)
               <input
                 type="number"
                 name="height"
@@ -179,9 +196,9 @@ const InitialSettingPage = () => {
                 onChange={handleChange}
                 required
               />
-            </label>{" "}
+            </label>
             <label>
-              Weight (in kg):
+              Weight (in kg)
               <input
                 type="number"
                 name="weight"
@@ -191,7 +208,7 @@ const InitialSettingPage = () => {
               />
             </label>
             <br />
-            My interests are:{" "}
+            My interests
             <label>
               <input
                 type="text"
@@ -213,7 +230,7 @@ const InitialSettingPage = () => {
               ))}
             </div>
             <br />
-            Speaking about me:
+            Speaking about me
             <br />
             <label>
               <textarea
