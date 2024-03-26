@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import {
@@ -167,27 +168,32 @@ const SearchPage = () => {
       <div className="search-page">
         <h2>SearchPage</h2>
         <br />
-        <div id="radio-btns-div">
-          <input
-            type="radio"
-            id="closeToYou"
-            name="searchOption"
-            value="closeToYou"
-            checked={searchOption === "closeToYou"}
-            onChange={() => setSearchOption("closeToYou")}
-          />
-          <label htmlFor="closeToYou">Close to you</label>
+        {userInfo ? (
+          <div id="radio-btns-div">
+            <input
+              type="radio"
+              id="closeToYou"
+              name="searchOption"
+              value="closeToYou"
+              checked={searchOption === "closeToYou"}
+              onChange={() => setSearchOption("closeToYou")}
+            />
+            <label htmlFor="closeToYou">Close to you</label>
 
-          <input
-            type="radio"
-            id="bestMatch"
-            name="searchOption"
-            value="bestMatch"
-            checked={searchOption === "bestMatch"}
-            onChange={() => setSearchOption("bestMatch")}
-          />
-          <label htmlFor="bestMatch">Best match</label>
-        </div>
+            <input
+              type="radio"
+              id="bestMatch"
+              name="searchOption"
+              value="bestMatch"
+              checked={searchOption === "bestMatch"}
+              onChange={() => setSearchOption("bestMatch")}
+            />
+            <label htmlFor="bestMatch">Best match</label>
+          </div>
+        ) : (
+          <div></div>
+        )}
+
         <br />
         <div className="user-container">
           {currentUsers.map((user, index) => (
@@ -206,7 +212,6 @@ const SearchPage = () => {
                       .map((interest, i) => <span key={i}>{interest}</span>)}
                 </div>
               </div>
-              {/* <button className="contact-btn">Contact</button> */}
               <button
                 className="contact-btn"
                 onClick={() => setSelectedUserId(user.userID)}
@@ -231,12 +236,14 @@ const SearchPage = () => {
           </button>
         </div>
         <br />
-        {!userInfo ?? (
+        {!userInfo ? (
           <div>
             Login or Register to unlock features
             <br />
             <Link to="/login">Login</Link>
           </div>
+        ) : (
+          <div></div>
         )}
       </div>
     </>
