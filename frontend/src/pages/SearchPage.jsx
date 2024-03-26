@@ -5,6 +5,7 @@ import {
   useGetAllRecordsMutation,
   useGetUserRecordMutation,
 } from "../slices/recordsApiSlice";
+import { useGetUserEmailQuery } from "../slices/usersApiSlice";
 import { Link } from "react-router-dom";
 
 const SearchPage = () => {
@@ -19,6 +20,9 @@ const SearchPage = () => {
   const [userRecord, setUserRecord] = useState();
   const usersPerPage = 6;
 
+  const [selectedUserId, setSelectedUserId] = useState(null);
+  const [userEmail, setUserEmail] = useState("");
+
   const get6RandomUsers = async () => {
     try {
       const res = await getRandomUserRecord({});
@@ -27,6 +31,10 @@ const SearchPage = () => {
       console.log(err);
     }
   };
+
+  const { data, isSuccess } = useGetUserEmailQuery(selectedUserId, {
+    skip: selectedUserId === null,
+  });
 
   const getAllUsers = async () => {
     try {
@@ -73,6 +81,13 @@ const SearchPage = () => {
       get6RandomUsers();
     }
   }, []);
+
+  useEffect(() => {
+    if (isSuccess && data) {
+      setUserEmail(data.email);
+      console.log(`User's email: ${data.email}`);
+    }
+  }, [data, isSuccess]);
 
   useEffect(() => {
     let sortedUsers = [];
@@ -150,9 +165,9 @@ const SearchPage = () => {
   return (
     <>
       <div className="search-page">
-        SearchPage
+        <h2>SearchPage</h2>
         <br />
-        <div>
+        <div id="radio-btns-div">
           <input
             type="radio"
             id="closeToYou"
@@ -191,7 +206,15 @@ const SearchPage = () => {
                       .map((interest, i) => <span key={i}>{interest}</span>)}
                 </div>
               </div>
-              <button className="contact-btn">Contact</button>
+              {/* <button className="contact-btn">Contact</button> */}
+              <button
+                className="contact-btn"
+                onClick={() => setSelectedUserId(user.userID)}
+                //THIS WORKS WHICH MEANS I JUST NEED THE ACTUAL ID OF THE USER IN THE "RECORDS" TABLE
+                // onClick={() => setSelectedUserId("65f76e8eb1a158d124675327")}
+              >
+                Contact
+              </button>
             </div>
           ))}
         </div>

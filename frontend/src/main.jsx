@@ -19,6 +19,7 @@ import "./styles/TierPage.scss";
 import "./styles/InitialSettingPage.scss";
 import "./styles/LocationSettingPage.scss";
 import "./styles/SearchPage.scss";
+import "./styles/Footer.scss";
 import store from "./store.js";
 import { Provider } from "react-redux";
 import PrivateRoute from "./components/PrivateRoute.jsx";

@@ -1,7 +1,8 @@
 const Footer = () => {
+  const year = new Date().getFullYear();
   return (
     <>
-      <div className="footer">Footer</div>
+      <div className="footer">&copy; {year} RAMpage - Dating App</div>
     </>
   );
 };

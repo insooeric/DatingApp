@@ -82,6 +82,19 @@ const getUserProfile = asyncHandler(async (req, res) => {
   res.status(200).json(user);
 });
 
+// @desc    Get user email by ID
+// route    GET /api/users/:id/email
+// @access  Private or Public with restrictions
+const getUserEmailById = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const user = await User.findById(id);
+  if (user) {
+    res.json({ email: user.email });
+  } else {
+    res.status(404).json({ message: "User not found" });
+  }
+});
+
 // @desc    Update user profile
 // route    PUT /api/users/profile
 // @access  Private
@@ -117,5 +130,6 @@ export {
   registerUser,
   logoutUser,
   getUserProfile,
+  getUserEmailById,
   updateUserProfile,
 };
