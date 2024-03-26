@@ -37,6 +37,14 @@ const SearchPage = () => {
     skip: selectedUserId === null,
   });
 
+  const handleContactClick = (userId) => {
+    if (selectedUserId === userId && userEmail) {
+      window.location.href = `mailto:${userEmail}`;
+    } else {
+      setSelectedUserId(userId);
+    }
+  };
+
   const getAllUsers = async () => {
     try {
       const res = await getAllUserRecord({});
@@ -86,7 +94,6 @@ const SearchPage = () => {
   useEffect(() => {
     if (isSuccess && data) {
       setUserEmail(data.email);
-      console.log(`User's email: ${data.email}`);
     }
   }, [data, isSuccess]);
 
@@ -212,14 +219,21 @@ const SearchPage = () => {
                       .map((interest, i) => <span key={i}>{interest}</span>)}
                 </div>
               </div>
-              <button
-                className="contact-btn"
-                onClick={() => setSelectedUserId(user.userID)}
-                //THIS WORKS WHICH MEANS I JUST NEED THE ACTUAL ID OF THE USER IN THE "RECORDS" TABLE
-                // onClick={() => setSelectedUserId("65f76e8eb1a158d124675327")}
-              >
-                Contact
-              </button>
+              {selectedUserId === user.userId && userEmail ? (
+                <button
+                  className="contact-btn"
+                  onClick={() => handleContactClick(user.userId)}
+                >
+                  {userEmail} - Click to email
+                </button>
+              ) : (
+                <button
+                  className="contact-btn"
+                  onClick={() => handleContactClick(user.userId)}
+                >
+                  Contact
+                </button>
+              )}
             </div>
           ))}
         </div>
