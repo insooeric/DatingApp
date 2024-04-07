@@ -15,7 +15,7 @@ const getUserRecord = asyncHandler(async (req, res) => {
       return res.status(204).json({});
     }
 
-    console.log(record);
+    // console.log(record);
 
     res.status(200).json({ record });
   } catch (err) {
@@ -42,39 +42,73 @@ const postUserRecord = asyncHandler(async (req, res) => {
     bio,
   } = req.body;
 
-  console.log(req.body);
+  // console.log(req.body);
   try {
     // Check if a record with the given userId already exists
     const existingRecord = await Record.findOne({ userId: req.user._id });
 
-    if (existingRecord) {
-      return res.status(200).json({
-        msg: "Record for this user already exists",
+    if (!existingRecord) {
+      console.log("Create Record");
+      const newRecord = await Record.create({
+        userId: req.user._id,
+        userName,
+        age,
+        weight,
+        height,
+        gender,
+        location,
+        identification,
+        transGender,
+        interestGender,
+        interests,
+        bio,
+      });
+      res.status(200).json({
+        record: newRecord,
+      });
+    } else {
+      console.log("Update Record");
+      existingRecord.userName = userName;
+      existingRecord.age = age;
+      existingRecord.weight = weight;
+      existingRecord.height = height;
+      existingRecord.gender = gender;
+      existingRecord.location = location;
+      existingRecord.identification = identification;
+      existingRecord.transGender = transGender;
+      existingRecord.interestGender = interestGender;
+      existingRecord.interests = interests;
+      existingRecord.bio = bio;
+
+      const updatedRecord = await existingRecord.save();
+
+      res.status(200).json({
+        updatedRecord: updatedRecord,
       });
     }
 
-    // Create a new record
-    const newRecord = new Record({
-      userId: req.user._id,
-      userName,
-      age,
-      weight,
-      height,
-      gender,
-      location,
-      identification,
-      transGender,
-      interestGender,
-      interests,
-      bio,
-    });
+    // // Create a new record
+    // const newRecord = new Record({
+    //   userId: req.user._id,
+    //   userName,
+    //   age,
+    //   weight,
+    //   height,
+    //   gender,
+    //   location,
+    //   identification,
+    //   transGender,
+    //   interestGender,
+    //   interests,
+    //   bio,
+    // });
 
-    // Save the new record to the database
-    await newRecord.save();
+    // // Save the new record to the database
+    // await newRecord.save();
 
-    res.status(200).json({
-      record: newRecord,
-    });
+    // res.status(200).json({
+    //   record: newRecord,
+    // });
   } catch (err) {
     console.error(err);
     res.status(400).json({
@@ -130,7 +164,7 @@ const getAllRecords = asyncHandler(async (req, res) => {
       const compid = record.userId?.toString();
 
       if (userid && compid) {
-        console.log(`current userid: ${userid}, compere id: ${compid}`);
+        // console.log(`current userid: ${userid}, compere id: ${compid}`);
         if (userid === compid) {
           // filteredRecordsCount++;
           return false;

@@ -1,5 +1,5 @@
 import asyncHandler from "express-async-handler";
-import { User } from "../models/dbModel.js";
+import { User, Record } from "../models/dbModel.js";
 import generateToken from "../utils/generateToken.js";
 
 // @desc    Auth user/set token
@@ -77,16 +77,18 @@ const getUserProfile = asyncHandler(async (req, res) => {
     _id: req.user._id,
     name: req.user.name,
     email: req.user.email,
+    role: req.user.role,
   };
 
   res.status(200).json(user);
 });
 
 // @desc    Get user email by ID
-// route    GET /api/users/:id/email
+// route    POST /api/users/email
 // @access  Private or Public with restrictions
 const getUserEmailById = asyncHandler(async (req, res) => {
-  const { id } = req.params;
+  const id = req.body.userId.id;
+
   const user = await User.findById(id);
   if (user) {
     res.json({ email: user.email });
@@ -101,7 +103,6 @@ const getUserEmailById = asyncHandler(async (req, res) => {
 
 const updateUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
-  console.log(req.body);
   const { checkPassword } = req.body;
 
   if (user && (await user.matchPassword(checkPassword))) {
@@ -125,6 +126,40 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    suspend user
+// route    Post /api/users/suspend
+// @access  Private
+
+const suspendUser = asyncHandler(async (req, res) => {
+  const { userId, days } = req.body;
+  console.log(days);
+
+  try {
+    const user = await User.findOne({ _id: userId });
+    const record = await Record.findOne({ userId });
+
+    if (!user) {
+      return res.status(404).json({ msg: "User not found" });
+    }
+
+    if (days < 0) {
+      console.log("Permanent ban (Remove User)");
+    }
+    if (days === 0) {
+      console.log(`Cancelled ban`);
+    } else {
+      console.log(`${days} days banned`);
+    }
+
+    // console.log(user);
+    // console.log(record);
+
+    res.status(200).json({ msg: "User removed" });
+  } catch (err) {
+    res.status(500).json({ msg: "failed action" });
+  }
+});
+
 export {
   authUser,
   registerUser,
@@ -132,4 +167,5 @@ export {
   getUserProfile,
   getUserEmailById,
   updateUserProfile,
+  suspendUser,
 };

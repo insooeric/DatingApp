@@ -79,7 +79,6 @@ const LocationSettingPage = () => {
       });
 
       const sortedCities = res.data.cities.slice().sort((city1, city2) => {
-        // Use localeCompare for case-insensitive sorting
         return city1.name.localeCompare(city2.name);
       });
 

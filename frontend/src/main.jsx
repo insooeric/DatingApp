@@ -20,6 +20,7 @@ import "./styles/InitialSettingPage.scss";
 import "./styles/LocationSettingPage.scss";
 import "./styles/SearchPage.scss";
 import "./styles/Footer.scss";
+import "./styles/SettingsPage.scss";
 import store from "./store.js";
 import { Provider } from "react-redux";
 import PrivateRoute from "./components/PrivateRoute.jsx";
@@ -31,6 +32,7 @@ import RegisterPage from "./pages/RegisterPage.jsx";
 import TierPage from "./pages/TierPage.jsx";
 import CardRegisterPage from "./pages/CardRegisterPage.jsx";
 import SearchPage from "./pages/SearchPage.jsx";
+import SettingsPage from "./pages/SettingsPage.jsx";
 
 // single-access page
 import InitialSettingPage from "./pages/InitialSettingPage.jsx";
@@ -51,7 +53,7 @@ const router = createBrowserRouter(
 
       {/* Private Route */}
       <Route path="" element={<PrivateRoute />}>
-        {/* <Route path="/settings" element={<SettingsPage />} /> */}
+        <Route path="/settings" element={<SettingsPage />} />
       </Route>
     </Route>
   )
