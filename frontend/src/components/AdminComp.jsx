@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useSuspendUserMutation } from "../slices/usersApiSlice";
 import { useGetAllRecordsMutation } from "../slices/recordsApiSlice";
 import { useGetUserEmailMutation } from "../slices/usersApiSlice";
