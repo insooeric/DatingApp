@@ -224,8 +224,8 @@ const UpdateDetailsComp = () => {
 
   return (
     <>
-      <div>
-        UpdateDetails
+      <div className="update-details-comp">
+        <h2>UpdateDetails</h2>
         <form onSubmit={handleSubmit}>
           <label>
             Age

@@ -60,7 +60,7 @@ const AdminComp = () => {
   return (
     <>
       <div className="admin-comp">
-        AdminComp
+        <h2>AdminComp</h2>
         <br />
         <div className="user-list">
           {userList.map((user, key) => (
