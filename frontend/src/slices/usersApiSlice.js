@@ -30,8 +30,26 @@ export const userApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
-    getUserEmail: builder.query({
-      query: (userId) => `${USERS_URL}/${userId}/email`,
+    getUser: builder.mutation({
+      query: () => ({
+        url: `${USERS_URL}/profile`,
+        method: "GET",
+      }),
+    }),
+
+    getUserEmail: builder.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}/email`,
+        method: "POST",
+        body: data,
+      }),
+    }),
+    suspendUser: builder.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}/suspend`,
+        method: "POST",
+        body: data,
+      }),
     }),
   }),
 });
@@ -41,5 +59,7 @@ export const {
   useLogoutMutation,
   useRegisterMutation,
   useUpdateUserMutation,
-  useGetUserEmailQuery,
+  useGetUserEmailMutation,
+  useGetUserMutation,
+  useSuspendUserMutation,
 } = userApiSlice;

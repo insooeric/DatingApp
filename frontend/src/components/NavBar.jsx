@@ -25,6 +25,10 @@ const NavBar = () => {
     }
   };
 
+  const profileHandler = async () => {
+    navigate("/settings");
+  };
+
   useEffect(() => {}, []);
 
   return (
@@ -45,7 +49,6 @@ const NavBar = () => {
                 Browse
               </Link>
             </li>
-            {/* TODO: Construct statistics or chat page */}
             <li>
               <Link className="nav-item" to={"/"}>
                 Default
@@ -57,6 +60,9 @@ const NavBar = () => {
           {userInfo ? (
             <>
               <NavDropdown title={userInfo.name} id="username">
+                <NavDropdown.Item onClick={profileHandler}>
+                  Settings
+                </NavDropdown.Item>
                 <NavDropdown.Item onClick={logoutHandler}>
                   Logout
                 </NavDropdown.Item>

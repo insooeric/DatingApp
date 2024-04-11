@@ -6,7 +6,7 @@ import {
   useGetAllRecordsMutation,
   useGetUserRecordMutation,
 } from "../slices/recordsApiSlice";
-import { useGetUserEmailQuery } from "../slices/usersApiSlice";
+// import { useGetUserEmailQuery } from "../slices/usersApiSlice";
 import { Link } from "react-router-dom";
 
 const SearchPage = () => {
@@ -33,9 +33,9 @@ const SearchPage = () => {
     }
   };
 
-  const { data, isSuccess } = useGetUserEmailQuery(selectedUserId, {
-    skip: selectedUserId === null,
-  });
+  // const { data, isSuccess } = useGetUserEmailQuery(selectedUserId, {
+  //   skip: selectedUserId === null,
+  // });
 
   const handleContactClick = (userId) => {
     if (selectedUserId === userId && userEmail) {
@@ -91,11 +91,11 @@ const SearchPage = () => {
     }
   }, []);
 
-  useEffect(() => {
-    if (isSuccess && data) {
-      setUserEmail(data.email);
-    }
-  }, [data, isSuccess]);
+  // useEffect(() => {
+  //   if (isSuccess && data) {
+  //     setUserEmail(data.email);
+  //   }
+  // }, [data, isSuccess]);
 
   useEffect(() => {
     let sortedUsers = [];

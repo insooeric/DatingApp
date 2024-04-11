@@ -1,0 +1,74 @@
+.admin-comp {
+  background-color: #ffffff;
+  color: #333;
+  padding: 20px;
+  box-sizing: border-box;
+
+  h2 {
+    text-align: center;
+  }
+
+  .user-list {
+    display: grid;
+    grid-gap: 20px;
+    padding: 20px;
+    background-color: #ffffff;
+
+    .small-profile {
+      display: grid;
+      grid-gap: 10px;
+      padding: 20px;
+      align-items: start;
+      border: 1px solid #cccccc;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+      &:hover {
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+      }
+
+      button {
+        color: #0af;
+        background-color: #ffffff;
+        border: 2px solid #0af;
+        padding: 10px 10px;
+        margin-top: 5px;
+        margin-right: 5px;
+        display: inline;
+        border-radius: 5%;
+        transition: background-color 0.5s ease;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #007bff;
+          color: #fff;
+        }
+      }
+
+      input[type="number"] {
+        border: 1px solid #cccccc;
+        padding: 5px 10px;
+        margin-right: 10px;
+      }
+    }
+  }
+}
+
+@media (min-width: 900px) {
+  .admin-comp .user-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 899px) and (min-width: 600px) {
+  .admin-comp .user-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 599px) {
+  .admin-comp .user-list {
+    grid-template-columns: 1fr;
+  }
+}

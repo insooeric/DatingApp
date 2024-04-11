@@ -6,18 +6,20 @@ import {
   getUserProfile,
   updateUserProfile,
   getUserEmailById,
+  suspendUser,
 } from "../controllers/userController.js";
-import { protect } from "../middleware/authMiddleware.js";
+import { protect, checkAdmin } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
 router.post("/", registerUser);
 router.post("/auth", authUser);
 router.post("/logout", logoutUser);
-router.get("/:id/email", getUserEmailById);
+router.post("/email", getUserEmailById);
 router
   .route("/profile")
   .get(protect, getUserProfile)
   .put(protect, updateUserProfile);
+router.route("/suspend").post(protect, checkAdmin, suspendUser);
 
 export default router;
