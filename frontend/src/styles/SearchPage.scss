@@ -98,6 +98,8 @@
         width: 80%;
         margin: 20px auto;
         align-self: center;
+        word-wrap: break-word;
+        white-space: normal;
 
         &:hover {
           background-color: #007bff;
