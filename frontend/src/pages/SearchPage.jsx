@@ -91,11 +91,11 @@ const SearchPage = () => {
     }
   }, []);
 
-  useEffect(() => {
-    if (isSuccess && data) {
-      setUserEmail(data.email);
-    }
-  }, [data, isSuccess]);
+  // useEffect(() => {
+  //   if (isSuccess && data) {
+  //     setUserEmail(data.email);
+  //   }
+  // }, [data, isSuccess]);
 
   useEffect(() => {
     let sortedUsers = [];
