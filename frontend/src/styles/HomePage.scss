@@ -1,4 +1,35 @@
-.home-title {
+$primary-color: #0057b38b;
+$light-color: #ffffff;
+
+.home {
+  color: $light-color;
+  background-color: $primary-color;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   text-align: center;
-  margin-top: 20px;
+  align-items: center;
+  justify-content: center;
+
+  &__header,
+  &__footer {
+    padding: 10px 0;
+  }
+
+  &__header {
+    margin-bottom: 20px;
+  }
+
+  &__main {
+    max-width: 600px;
+
+    h2 {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 1.2rem;
+    }
+  }
 }

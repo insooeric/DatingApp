@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useLogoutMutation } from "../slices/usersApiSlice";
 import { FaSignInAlt } from "react-icons/fa";
 import { logout } from "../slices/authSlice";
+import navLogo from "../image/bannerLogo.png";
 
 const NavBar = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -35,7 +36,7 @@ const NavBar = () => {
     <>
       <div className="nav">
         <Link className="logo" to="/">
-          Some Logo?
+          <img src={navLogo} style={{ width: 100 }} />
         </Link>
         <div className="tabs">
           <ul className="nav-list">
@@ -49,11 +50,11 @@ const NavBar = () => {
                 Browse
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link className="nav-item" to={"/"}>
                 Default
               </Link>
-            </li>
+            </li> */}
           </ul>
         </div>
         <div className="login">
