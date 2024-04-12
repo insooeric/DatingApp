@@ -15,8 +15,6 @@ const getUserRecord = asyncHandler(async (req, res) => {
       return res.status(204).json({});
     }
 
-    // console.log(record);
-
     res.status(200).json({ record });
   } catch (err) {
     console.error(err);
@@ -42,9 +40,10 @@ const postUserRecord = asyncHandler(async (req, res) => {
     bio,
   } = req.body;
 
-  // console.log(req.body);
+  const myRating = [];
+  const ratedUser = [];
+
   try {
-    // Check if a record with the given userId already exists
     const existingRecord = await Record.findOne({ userId: req.user._id });
 
     if (!existingRecord) {
@@ -62,6 +61,8 @@ const postUserRecord = asyncHandler(async (req, res) => {
         interestGender,
         interests,
         bio,
+        myRating,
+        ratedUser,
       });
       res.status(200).json({
         record: newRecord,
@@ -122,9 +123,10 @@ const postUserRecord = asyncHandler(async (req, res) => {
 // @access  Public
 const get6RandomRecords = asyncHandler(async (req, res) => {
   try {
-    const allRecords = await Record.find();
+    const adminUsers = await User.find({ role: "admin" });
+    const adminUserIds = adminUsers.map((user) => user._id);
+    const allRecords = await Record.find({ userId: { $nin: adminUserIds } });
 
-    // Function to shuffle an array
     const shuffleArray = (array) => {
       for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -133,10 +135,8 @@ const get6RandomRecords = asyncHandler(async (req, res) => {
       return array;
     };
 
-    // Shuffle the allRecords array
     const shuffledRecords = shuffleArray(allRecords);
 
-    // Select the first 6 records
     const selectedRecords = shuffledRecords.slice(0, 6);
 
     res.status(200).json({
@@ -156,26 +156,21 @@ const get6RandomRecords = asyncHandler(async (req, res) => {
 // @access  Private
 const getAllRecords = asyncHandler(async (req, res) => {
   try {
-    const allRecords = await Record.find();
+    const adminUsers = await User.find({ role: "admin" });
+    const adminUserIds = adminUsers.map((user) => user._id);
+    const allRecords = await Record.find({ userId: { $nin: adminUserIds } });
 
-    // let filteredRecordsCount = 0;
     const filteredRecords = allRecords.filter((record) => {
       const userid = req.user?._id?.toString();
       const compid = record.userId?.toString();
 
       if (userid && compid) {
-        // console.log(`current userid: ${userid}, compere id: ${compid}`);
         if (userid === compid) {
-          // filteredRecordsCount++;
           return false;
         }
       }
       return true;
     });
-
-    // console.log(filteredRecordsCount);
-    // const userNames = filteredRecords.map((record) => record.userName);
-    // console.log(filteredRecords);
 
     res.status(200).json({
       msg: "Success",
@@ -189,4 +184,61 @@ const getAllRecords = asyncHandler(async (req, res) => {
   }
 });
 
-export { getUserRecord, postUserRecord, get6RandomRecords, getAllRecords };
+// @desc    Post rating for selected user
+// route    Post /api/record/rate-user
+// @access  Private
+const postRateUser = asyncHandler(async (req, res) => {
+  const { targetUserId, rating } = req.body;
+
+  try {
+    console.log("rate user");
+
+    const userRecord = await Record.findOne({ userId: req.user._id });
+    if (!userRecord) {
+      return res.status(404).json({ msg: "User record not found" });
+    }
+
+    const targetUserRecord = await Record.findOne({ userId: targetUserId });
+    if (!targetUserRecord) {
+      return res.status(404).json({ msg: "Target user record not found" });
+    }
+
+    const existingRatingIndex = userRecord.ratedUser.findIndex((r) =>
+      r.targetUserId.equals(targetUserId)
+    );
+    if (existingRatingIndex !== -1) {
+      userRecord.ratedUser[existingRatingIndex].rating = rating;
+    } else {
+      userRecord.ratedUser.push({ targetUserId, rating });
+    }
+
+    const existingMyRatingIndex = targetUserRecord.myRating.findIndex((r) =>
+      r.userId.equals(req.user._id)
+    );
+    if (existingMyRatingIndex !== -1) {
+      targetUserRecord.myRating[existingMyRatingIndex].rating = rating;
+    } else {
+      targetUserRecord.myRating.push({ userId: req.user._id, rating });
+    }
+
+    await userRecord.save();
+    await targetUserRecord.save();
+
+    res.status(200).json({
+      msg: "User rated successfully",
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({
+      msg: "Failed to rate user",
+    });
+  }
+});
+
+export {
+  getUserRecord,
+  postUserRecord,
+  get6RandomRecords,
+  getAllRecords,
+  postRateUser,
+};

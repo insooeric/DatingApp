@@ -21,6 +21,16 @@ const userSchema = mongoose.Schema(
       required: true,
       default: "user",
     },
+    suspended: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+
+    suspensionEnd: {
+      type: Date,
+      required: true,
+    },
   },
   {
     timestamps: true,
@@ -97,6 +107,32 @@ const recordSchema = mongoose.Schema({
     required: false,
     default: "",
   },
+
+  myRating: [
+    {
+      userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+      },
+      rating: {
+        type: Number,
+        required: true,
+      },
+    },
+  ],
+
+  ratedUser: [
+    {
+      targetUserId: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+      },
+      rating: {
+        type: Number,
+        required: true,
+      },
+    },
+  ],
 });
 
 const citySchema = new mongoose.Schema({

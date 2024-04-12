@@ -5,9 +5,15 @@ import {
   useGetRandomUserRecordMutation,
   useGetAllRecordsMutation,
   useGetUserRecordMutation,
+  usePostRateOnRecordsMutation,
 } from "../slices/recordsApiSlice";
-// import { useGetUserEmailQuery } from "../slices/usersApiSlice";
+import { useGetUserEmailMutation } from "../slices/usersApiSlice";
 import { Link } from "react-router-dom";
+import maleImg from "../image/male.png";
+import femaleImg from "../image/female.png";
+import lgbtqImg from "../image/lgbtq.png";
+import transImg from "../image/trans.png";
+import StarRating from "../components/StarRating";
 
 const SearchPage = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -15,6 +21,9 @@ const SearchPage = () => {
   const [getRandomUserRecord] = useGetRandomUserRecordMutation();
   const [getAllUserRecord] = useGetAllRecordsMutation();
   const [getCurrentUserRecord] = useGetUserRecordMutation();
+  const [getSelectedUserEmail] = useGetUserEmailMutation();
+  const [rateSelectedUser] = usePostRateOnRecordsMutation();
+
   const [userList, setUserList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchOption, setSearchOption] = useState("default");
@@ -33,22 +42,19 @@ const SearchPage = () => {
     }
   };
 
-  // const { data, isSuccess } = useGetUserEmailQuery(selectedUserId, {
-  //   skip: selectedUserId === null,
-  // });
-
-  const handleContactClick = (userId) => {
-    if (selectedUserId === userId && userEmail) {
-      window.location.href = `mailto:${userEmail}`;
-    } else {
-      setSelectedUserId(userId);
+  const handleContactClick = async (userId) => {
+    console.log(userId);
+    try {
+      const res = await getSelectedUserEmail({ id: userId });
+      window.location.href = `mailto:${res.data.email}`;
+    } catch (err) {
+      console.log(err);
     }
   };
 
   const getAllUsers = async () => {
     try {
       const res = await getAllUserRecord({});
-      // console.log(res.data.allRecords);
       setUserList(res.data.allRecords);
     } catch (err) {
       console.log(err);
@@ -90,12 +96,6 @@ const SearchPage = () => {
       get6RandomUsers();
     }
   }, []);
-
-  // useEffect(() => {
-  //   if (isSuccess && data) {
-  //     setUserEmail(data.email);
-  //   }
-  // }, [data, isSuccess]);
 
   useEffect(() => {
     let sortedUsers = [];
@@ -170,6 +170,16 @@ const SearchPage = () => {
     return deg * (Math.PI / 180);
   };
 
+  const handleRatingChange = async (userId, rating) => {
+    console.log(userId + ": " + rating);
+    try {
+      const res = await rateSelectedUser({ targetUserId: userId, rating });
+      console.log(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <>
       <div className="search-page">
@@ -206,34 +216,64 @@ const SearchPage = () => {
           {currentUsers.map((user, index) => (
             <div className="user-card" key={index}>
               <div className="small-profile">
-                <div className="left-side">
+                <div className="top">
                   <label>{user.userName}</label>
-                  <label>Age: {user.age}</label>
-                  <label>Gender: {user.gender}</label>
+                  <img
+                    src={user.gender === "male" ? maleImg : femaleImg}
+                    style={{ marginLeft: 6, width: 20 }}
+                  />
+                  <img
+                    src={user.identification !== "heterosexual" ? lgbtqImg : ""}
+                    style={{ marginLeft: 6, width: 20 }}
+                  />
+                  <img
+                    src={user.transGender ? transImg : ""}
+                    style={{ marginLeft: 6, width: 20 }}
+                  />
                 </div>
-                <div className="right-side">
-                  <p>{user.bio}</p>
+                <div className="info">
+                  <div className="left-side">
+                    <label>Age: {user.age}</label>
+                  </div>
+                  <div className="right-side">
+                    <p>{user.bio}</p>
+                  </div>
+                </div>
+                <div>
+                  Interests:
+                  <br />
                   {user.interests &&
                     user.interests
                       .slice(0, 3)
-                      .map((interest, i) => <span key={i}>{interest}</span>)}
+                      .map((interest, i) => <span key={i}>{interest}, </span>)}
+                </div>
+                <div className="bottom">
+                  {userInfo && (
+                    <StarRating
+                      selectedUser={user.userId}
+                      count={5}
+                      value={
+                        user.myRating.find(
+                          (rating) =>
+                            rating.userId.toString() === userInfo._id.toString()
+                        )?.rating || 0
+                      }
+                      onChange={(rating) =>
+                        handleRatingChange(user.userId, rating)
+                      }
+                    />
+                  )}
+                  <button
+                    className="contact-btn"
+                    onClick={() => {
+                      handleContactClick(user.userId);
+                      console.log(user);
+                    }}
+                  >
+                    Click to email
+                  </button>
                 </div>
               </div>
-              {selectedUserId === user.userId && userEmail ? (
-                <button
-                  className="contact-btn"
-                  onClick={() => handleContactClick(user.userId)}
-                >
-                  {userEmail} - Click to email
-                </button>
-              ) : (
-                <button
-                  className="contact-btn"
-                  onClick={() => handleContactClick(user.userId)}
-                >
-                  Contact
-                </button>
-              )}
             </div>
           ))}
         </div>

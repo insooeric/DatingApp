@@ -74,36 +74,42 @@
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
       .small-profile {
-        display: grid;
-        grid-template-columns: 1fr 2fr;
-        grid-gap: 10px;
+        display: flex;
+        flex-direction: column;
         padding: 20px;
-        align-items: start;
-
-        .left-side,
-        .right-side {
+        .top {
+          text-align: center;
+        }
+        .info {
+          display: grid;
+          grid-template-columns: 1fr 2fr;
+          .left-side {
+          }
+          .right-side {
+          }
+        }
+        .bottom {
           display: flex;
           flex-direction: column;
-          gap: 5px;
-        }
-      }
+          align-items: center;
+          .contact-btn {
+            color: #0af;
+            background-color: #ffffff;
+            border: 2px solid #0af;
+            padding: 10px 20px;
+            border-radius: 5%;
+            transition: background-color 0.5s ease;
+            width: 80%;
+            margin: 20px auto;
+            align-self: center;
+            word-wrap: break-word;
+            white-space: normal;
 
-      .contact-btn {
-        color: #0af;
-        background-color: #ffffff;
-        border: 2px solid #0af;
-        padding: 10px 20px;
-        border-radius: 5%;
-        transition: background-color 0.5s ease;
-        width: 80%;
-        margin: 20px auto;
-        align-self: center;
-        word-wrap: break-word;
-        white-space: normal;
-
-        &:hover {
-          background-color: #007bff;
-          color: #fff;
+            &:hover {
+              background-color: #007bff;
+              color: #fff;
+            }
+          }
         }
       }
     }

@@ -1,24 +1,17 @@
 import { useState, useEffect } from "react";
-import { useSuspendUserMutation } from "../slices/usersApiSlice";
+import {
+  useSuspendUserMutation,
+  useGetUserEmailMutation,
+} from "../slices/usersApiSlice";
 import { useGetAllRecordsMutation } from "../slices/recordsApiSlice";
-import { useGetUserEmailMutation } from "../slices/usersApiSlice";
 import { toast } from "react-toastify";
 
 const AdminComp = () => {
   const [getAllRecords] = useGetAllRecordsMutation();
-  const [getUserEmail] = useGetUserEmailMutation();
   const [suspendUser] = useSuspendUserMutation();
+  const [getSelectedUserEmail] = useGetUserEmailMutation();
   const [userList, setUserList] = useState([]);
   const [suspensionDurations, setSuspensionDurations] = useState({});
-
-  const getAccordingUserEmail = async (userId) => {
-    try {
-      const res = await getUserEmail({ userId });
-      return res.data.email;
-    } catch (err) {
-      toast.error(err?.data?.message || err.error);
-    }
-  };
 
   const suspendSelectedUser = async (userId, days) => {
     try {
@@ -29,26 +22,11 @@ const AdminComp = () => {
     }
   };
 
-  useEffect(() => {
-    const getAllUserRecords = async () => {
-      try {
-        const res = await getAllRecords();
-        const usersWithEmail = await Promise.all(
-          res.data.allRecords.map(async (user) => {
-            const email = await getAccordingUserEmail({
-              id: user.userId,
-            });
-            return { ...user, email }; // Adding email field to user object
-          })
-        );
-        setUserList(usersWithEmail);
-      } catch (err) {
-        toast.error(err?.data?.message || err.error);
-      }
-    };
-
-    getAllUserRecords();
-  }, []);
+  const calculateAverageRating = (ratings) => {
+    if (ratings.length === 0) return 0;
+    const total = ratings.reduce((acc, item) => acc + item.rating, 0);
+    return total / ratings.length;
+  };
 
   const handleSuspensionChange = (userId, duration) => {
     setSuspensionDurations((prevDurations) => ({
@@ -56,6 +34,44 @@ const AdminComp = () => {
       [userId]: duration,
     }));
   };
+
+  useEffect(() => {
+    const getAllUserRecords = async () => {
+      try {
+        const recordsRes = await getAllRecords();
+        if (recordsRes.error) {
+          throw new Error(recordsRes.error.message);
+        }
+
+        const usersWithEmails = await Promise.all(
+          recordsRes.data.allRecords.map(async (user) => {
+            try {
+              const emailRes = await getSelectedUserEmail({
+                id: user.userId,
+              });
+              return {
+                ...user,
+                averageRating: calculateAverageRating(user.myRating),
+                email: emailRes.data.email,
+              };
+            } catch (emailError) {
+              return {
+                ...user,
+                averageRating: calculateAverageRating(user.myRating),
+                email: "Email not found",
+              };
+            }
+          })
+        );
+
+        setUserList(usersWithEmails);
+      } catch (err) {
+        toast.error("Failed to fetch user records: " + err.message);
+      }
+    };
+
+    getAllUserRecords();
+  }, []);
 
   return (
     <>
@@ -66,11 +82,11 @@ const AdminComp = () => {
           {userList.map((user, key) => (
             <div className="small-profile" key={key}>
               <div>
-                {user.userName}
+                {user.userName} ({user.averageRating.toFixed(1)} avg rating)
                 <br />
                 {user.gender}
                 <br />
-                {user.email}
+                Email: {user.email}
               </div>
               <div>
                 <input

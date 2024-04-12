@@ -7,19 +7,15 @@ const updateCode = asyncHandler(async (req, res) => {
   try {
     const countriesData = await City.find();
 
-    // Your country code to name mapping JSON
     const countryCodeToName = {};
-
-    // Update the "country" field in MongoDB using updateMany
     const updatePromises = countriesData.map(async (city) => {
       const countryName = countryCodeToName[city.country] || city.country;
       await City.updateMany(
-        { _id: city._id }, // Assuming _id is the unique identifier for your documents
+        { _id: city._id },
         { $set: { country: countryName } }
       );
     });
 
-    // Wait for all update operations to complete
     await Promise.all(updatePromises);
 
     res.status(200).json({ msg: "Success" });

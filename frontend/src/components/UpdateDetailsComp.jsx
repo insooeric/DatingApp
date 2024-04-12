@@ -159,8 +159,10 @@ const UpdateDetailsComp = () => {
     try {
       const res = await updateUserRecord(formData);
       console.log(res.data);
+      toast.success("User Details Updated");
     } catch (err) {
       console.log(err);
+      toast.error("Something went wrong :(");
     }
   };
 

@@ -12,6 +12,12 @@ const authUser = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email });
 
   if (user && (await user.matchPassword(password))) {
+    if (user.suspensionEnd > new Date()) {
+      console.log("suspended");
+      res.status(401);
+      throw new Error("User is currently suspended");
+    }
+
     generateToken(res, user._id);
     res.status(201).json({
       _id: user._id,
@@ -41,6 +47,8 @@ const registerUser = asyncHandler(async (req, res) => {
     name,
     email,
     password,
+    suspended: false,
+    suspensionEnd: new Date(),
   });
 
   if (user) {
@@ -87,7 +95,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
 // route    POST /api/users/email
 // @access  Private or Public with restrictions
 const getUserEmailById = asyncHandler(async (req, res) => {
-  const id = req.body.userId.id;
+  const id = req.body.id;
 
   const user = await User.findById(id);
   if (user) {
@@ -132,31 +140,31 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 
 const suspendUser = asyncHandler(async (req, res) => {
   const { userId, days } = req.body;
-  console.log(days);
 
-  try {
-    const user = await User.findOne({ _id: userId });
-    const record = await Record.findOne({ userId });
+  const user = await User.findById(userId);
+  const record = await Record.findOne({ userId });
+  if (!user && !record) {
+    return res.status(404).json({ message: "User not found" });
+  }
 
-    if (!user) {
-      return res.status(404).json({ msg: "User not found" });
-    }
-
-    if (days < 0) {
-      console.log("Permanent ban (Remove User)");
-    }
-    if (days === 0) {
-      console.log(`Cancelled ban`);
-    } else {
-      console.log(`${days} days banned`);
-    }
-
-    // console.log(user);
-    // console.log(record);
-
-    res.status(200).json({ msg: "User removed" });
-  } catch (err) {
-    res.status(500).json({ msg: "failed action" });
+  if (days < 0) {
+    await User.deleteOne({ _id: userId });
+    await Record.deleteOne({ userId });
+    return res.status(200).json({ message: "User permanently removed" });
+  } else if (days === 0) {
+    await User.updateOne(
+      { _id: userId },
+      { $set: { suspended: false, suspensionEnd: new Date() } }
+    );
+    res.status(200).json({ message: "Ban lifted" });
+  } else {
+    const suspensionEnd = new Date();
+    suspensionEnd.setDate(suspensionEnd.getDate() + days);
+    await User.updateOne(
+      { _id: userId },
+      { $set: { suspended: true, suspensionEnd } }
+    );
+    res.status(200).json({ message: `${days} days ban imposed` });
   }
 });
 

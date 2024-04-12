@@ -29,6 +29,13 @@ export const recordApiSlice = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    postRateOnRecords: builder.mutation({
+      query: (data) => ({
+        url: `${RECORDS_URL}/rate-user`,
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -37,4 +44,5 @@ export const {
   usePostUserRecordMutation,
   useGetRandomUserRecordMutation,
   useGetAllRecordsMutation,
+  usePostRateOnRecordsMutation,
 } = recordApiSlice;
