@@ -29,7 +29,7 @@ const UpdateProfileComp = () => {
       }).unwrap();
       dispatch(setCredentials({ ...res }));
       toast.success("Profile updated");
-      navigate("/profile");
+      navigate("/settings");
     } catch (err) {
       toast.error(err?.data?.message || err.error);
     }
@@ -40,14 +40,13 @@ const UpdateProfileComp = () => {
     if (newPassword == confirmPassword) {
       try {
         const res = await updateProfile({
-          _id: userInfo._id,
           email: userInfo.email,
           checkPassword: password,
           password: newPassword,
         }).unwrap();
         dispatch(setCredentials({ ...res }));
         toast.success("Profile updated");
-        navigate("/profile");
+        navigate("/settings");
       } catch (err) {
         toast.error("Invalid Password");
       }
@@ -58,6 +57,8 @@ const UpdateProfileComp = () => {
 
   useEffect(() => {
     sessionStorage.setItem("userName", userInfo.name);
+    setName(userInfo.name);
+    setEmail(userInfo.email);
   }, []);
 
   return (

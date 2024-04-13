@@ -112,6 +112,7 @@ const getUserEmailById = asyncHandler(async (req, res) => {
 const updateUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
   const { checkPassword } = req.body;
+  console.log(req.body);
 
   if (user && (await user.matchPassword(checkPassword))) {
     user.name = req.body.name || user.name;
