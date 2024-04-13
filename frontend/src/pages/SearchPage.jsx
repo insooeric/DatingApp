@@ -243,9 +243,12 @@ const SearchPage = () => {
                   Interests:
                   <br />
                   {user.interests &&
-                    user.interests
-                      .slice(0, 3)
-                      .map((interest, i) => <span key={i}>{interest}, </span>)}
+                    user.interests.slice(0, 3).map((interest, i, array) => (
+                      <span key={i}>
+                        {interest}
+                        {i < array.length - 1 ? ", " : ""}
+                      </span>
+                    ))}
                 </div>
                 <div className="bottom">
                   {userInfo && (
